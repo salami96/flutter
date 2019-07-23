@@ -15,15 +15,13 @@ class _HomePageState extends State<HomePage> {
   String _search;
   int _offset;
 
-  Future<Map> _getGifs() async {
+  Future<List> _getGifs() async {
     http.Response response;
 
     if (_search == null || _search.isEmpty)
-      response = await http.get("https://api.giphy.com/v1/gifs/trending?api_key=mW3GxWmX37wah6iH5jWEYTxxsTI5o6jW&limit=20&rating=R");
-      // response = await http.get("https://api.giphy.com/v1/stickers/trending?api_key=mW3GxWmX37wah6iH5jWEYTxxsTI5o6jW&limit=20&rating=R");
+      response = await http.get("https://r34-json-api.herokuapp.com/posts?limit=20&tags=animated");
     else
-      response = await http.get("https://api.giphy.com/v1/gifs/search?api_key=mW3GxWmX37wah6iH5jWEYTxxsTI5o6jW&q=$_search&limit=19&offset=$_offset&rating=R&lang=pt");
-      // response = await http.get("https://api.giphy.com/v1/stickers/search?api_key=mW3GxWmX37wah6iH5jWEYTxxsTI5o6jW&q=$_search&limit=19&offset=$_offset&rating=R&lang=pt");
+      response = await http.get("https://r34-json-api.herokuapp.com/posts?limit=19&tags=$_search&pid=$_offset");
 
     return json.decode(response.body);
   }
@@ -41,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Image.network("https://developers.giphy.com/static/img/dev-logo-lg.7404c00322a8.gif"),
+        title: Image.network("https://rule34.xxx/images/topb.png"),
         centerTitle: true,
       ),
       backgroundColor: Colors.black,
@@ -109,12 +107,12 @@ class _HomePageState extends State<HomePage> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 10
       ),
-      itemCount: _getCount(snapshot.data["data"]),
+      itemCount: _getCount(snapshot.data),
       itemBuilder: (context, index) {
-        if (_search == null || _search.isEmpty || index < snapshot.data["data"].length){
+        if (_search == null || _search.isEmpty || index < snapshot.data.length){
           return GestureDetector(
             child: FadeInImage.memoryNetwork(
-              image: snapshot.data["data"][index]["images"]["fixed_height"]["url"],
+              image: snapshot.data[index]["preview_url"],
               height: 300,
               fit: BoxFit.cover,
               placeholder: kTransparentImage,
@@ -123,12 +121,12 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => GifPage(snapshot.data["data"][index]) 
+                  builder: (context) => GifPage(snapshot.data[index]) 
                 )
               );
             },
             onLongPress: () {
-              Share.share(snapshot.data["data"][index]["images"]["fixed_height"]["url"]);
+              Share.share(snapshot.data[index]["file_url"]);
             },
           );
         } else {
@@ -143,7 +141,7 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: (){
                 setState(() {
-                 _offset += 19; 
+                 _offset += 1; 
                 });
               },
             )
