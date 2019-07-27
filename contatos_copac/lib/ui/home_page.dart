@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:contatos_copac/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
+
+import 'contact_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -27,20 +31,23 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Agenda Copac"),
+        title: Text("Contatos Copac"),
         backgroundColor: green,
         centerTitle: true,
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xffdddddd),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          _showContactPage();
+        },
         child: Icon(Icons.add),
         backgroundColor: green,
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(10),
+        itemCount: contacts.length,
         itemBuilder: (context, index){
-
+          return _contactCard(context, index);
         },
       ),
     );
@@ -58,14 +65,55 @@ class _HomePageState extends State<HomePage> {
                 height: 80,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(image: )
+                  image: DecorationImage(
+                    image: 
+                    contacts[index].image != "imgtest" ? 
+                    FileImage(File(contacts[index].image)) :
+                    AssetImage("images/person.png")
+                  )
                 ),
-              )
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      contacts[index].name ?? "",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    Text(
+                      contacts[index].email ?? "",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      contacts[index].phone ?? "",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],  
           ),
           ),
       ),
-    )
+      onTap: (){
+        _showContactPage(c: contacts[index]);
+      },
+    );
   }
 
+  void _showContactPage({Contact c}){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ContactPage(contact: c,))
+    );
+  }
 }
