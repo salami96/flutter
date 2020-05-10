@@ -12,8 +12,14 @@ void main() async {
     home: Home(),
     theme: ThemeData(
       hintColor: Colors.amber,
-      primaryColor: Colors.white
-    )
+      primaryColor: Colors.white,
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        hintStyle: TextStyle(color: Colors.amber),
+      ),
+    ),
+    debugShowCheckedModeBanner: false,
   ));
 }
 
@@ -67,7 +73,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("C0NV3\$0R"),
+        title: Text("C0NV3R\$0R"),
         backgroundColor: Colors.amber,
         centerTitle: true,
       ),

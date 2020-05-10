@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
 
   void _changePeople(int delta){
     setState(() {
-      if(_people >= 10 && delta == 1){
+      if(_people >= 35 && delta == 1){
         _info = "lotação esgotada!";
       } else if (_people > 0 && delta == -1){
         _info = "Pode entrar!";
