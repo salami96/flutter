@@ -25,7 +25,7 @@ void main() async {
 
 Future<Map> getData() async {
   http.Response response = await http.get(request);
-  return json.decode(response.body); 
+  return json.decode(response.body);
 }
 
 class Home extends StatefulWidget {

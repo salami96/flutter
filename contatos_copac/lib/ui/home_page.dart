@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   void _getAllContacts() {
     helper.getAllContacts().then((list){
       setState(() {
-       contacts = list; 
+        contacts = list;
       });
     });
   }

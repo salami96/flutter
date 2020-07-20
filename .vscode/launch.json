@@ -8,7 +8,7 @@
             "name": "Flutter",
             "type": "dart",
             "request": "launch",
-            "program": "chat_online/lib/main.dart"
+            "program": "loja/lib/main.dart"
         },
         {
             "name": "Dart",
